@@ -1,32 +1,71 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", "staging" ]
   pull_request:
     branches: [ "main" ]
 
 jobs:
+
+  # 🔹 1. BUILD JOB
   build:
+    name: Build & Validate Application
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup Node.js Environment
         uses: actions/setup-node@v3
         with:
-          node-version: 24
+          node-version: 18
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm install
 
-      - name: Run lint
+      - name: Run Lint Checks
         run: npm run lint
 
-      # - name: Run tests
+      # - name: Run Unit Tests
       #   run: npm test
 
-      - name: Build project
+      - name: Build Application
         run: npm run build
+
+  # 🔹 2. DEV DEPLOYMENT
+  deploy-dev:
+    name: Deploy to Development Environment
+    if: github.ref == 'refs/heads/develop'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: development
+
+    steps:
+      - name: Deploy to Dev Server
+        run: echo "Deploying to DEV environment..."
+
+  # 🔹 3. STAGING DEPLOYMENT
+  deploy-staging:
+    name: Deploy to Staging Environment
+    if: github.ref == 'refs/heads/staging'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - name: Deploy to Staging Server
+        run: echo "Deploying to STAGING environment..."
+
+  # 🔹 4. PRODUCTION DEPLOYMENT
+  deploy-prod:
+    name: Deploy to Production Environment
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production   # 👈 enables approval control
+
+    steps:
+      - name: Deploy to Production Server
+        run: echo "Deploying to PRODUCTION environment..."
