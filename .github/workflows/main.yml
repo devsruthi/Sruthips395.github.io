@@ -30,13 +30,14 @@ jobs:
 
       # - name: Run Unit Tests
       #   run: npm test
+      
+      - name: Debug ENV
+        run: echo "API = $VITE_API_URL"
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
 
       - name: Build Application
         run: npm run build
-
-      - name: Set Environment Variables
-        run: |
-          echo "VITE_API_URL=${{ vars.VITE_API_URL }}" >> ${{ github.env }}
         env:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
 
@@ -50,6 +51,7 @@ jobs:
           echo "ref = ${{ github.ref }}"
           echo "ref_name = ${{ github.ref_name }}"
           echo "event_name = ${{ github.event_name }}"
+          echo "VITE_API_URL = ${{ vars.VITE_API_URL }}"
 
   # 🔹 3. DEV DEPLOYMENT
   deploy-dev:
@@ -67,7 +69,6 @@ jobs:
   deploy-staging:
     name: Deploy to Staging Environment
     if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
-    environment: staging
     needs: build
     runs-on: ubuntu-latest
     # environment: staging
