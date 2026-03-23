@@ -12,6 +12,11 @@ jobs:
   build:
     name: Build & Validate Application
     runs-on: ubuntu-latest
+    environment: 
+      name: ${{ github.ref_name == 'develop' && 'development' ||
+       github.ref_name == 'staging' && 'staging' ||
+       github.ref_name == 'master' && 'production' ||
+       'development' }}
 
     steps:
       - name: Checkout Repository
@@ -30,11 +35,6 @@ jobs:
 
       # - name: Run Unit Tests
       #   run: npm test
-      
-      - name: Debug ENV
-        run: echo "API = $VITE_API_URL"
-        env:
-          VITE_API_URL: ${{ vars.VITE_API_URL }}
 
       - name: Build Application
         run: npm run build
@@ -45,13 +45,23 @@ jobs:
   debug:
     name: Debug
     runs-on: ubuntu-latest
+    environment: 
+      name: ${{ github.ref_name == 'develop' && 'development' ||
+       github.ref_name == 'staging' && 'staging' ||
+       github.ref_name == 'master' && 'production' ||
+       'development' }}
     steps:
-      - name: Debug
+      - name: Debug GitHub Variables
         run: |
           echo "ref = ${{ github.ref }}"
           echo "ref_name = ${{ github.ref_name }}"
           echo "event_name = ${{ github.event_name }}"
-          echo "VITE_API_URL = ${{ vars.VITE_API_URL }}"
+
+      - name: Debug ENV
+        run: echo "VITE_API_URL = $VITE_API_URL"
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+
 
   # 🔹 3. DEV DEPLOYMENT
   deploy-dev:
