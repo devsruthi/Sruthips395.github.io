@@ -10,7 +10,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
           <p>{import.meta.env.VITE_API_URL || 'No API URL'}</p>
-        <p>Hello Vite + React!!!</p>
+        <p>Hello Vite + React</p>
         <p>
           <button type="button" onClick={() => setCount((count) => count + 1)}>
             count is: {count}
