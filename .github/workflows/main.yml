@@ -43,8 +43,9 @@ jobs:
         run: |
           echo "ref = ${{ github.ref }}"
           echo "ref_name = ${{ github.ref_name }}"
+          echo "event_name = ${{ github.event_name }}"
 
-  # 🔹 2. DEV DEPLOYMENT
+  # 🔹 3. DEV DEPLOYMENT
   deploy-dev:
     name: Deploy to Development Environment
     if: github.ref == 'refs/heads/develop'
@@ -56,7 +57,7 @@ jobs:
       - name: Deploy to Dev Server
         run: echo "Deploying to DEV environment..."
 
-  # 🔹 3. STAGING DEPLOYMENT
+  # 🔹 4. STAGING DEPLOYMENT
   deploy-staging:
     name: Deploy to Staging Environment
     if: github.ref == 'refs/heads/staging'
@@ -68,7 +69,7 @@ jobs:
       - name: Deploy to Staging Server
         run: echo "Deploying to STAGING environment..."
 
-  # 🔹 4. PRODUCTION DEPLOYMENT
+  # 🔹 5. PRODUCTION DEPLOYMENT
   deploy-prod:
     name: Deploy to Production Environment
     if: github.ref == 'refs/heads/master'
