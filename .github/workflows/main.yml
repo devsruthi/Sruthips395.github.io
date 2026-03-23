@@ -48,7 +48,7 @@ jobs:
   # 🔹 3. DEV DEPLOYMENT
   deploy-dev:
     name: Deploy to Development Environment
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
     needs: build
     runs-on: ubuntu-latest
     # environment: development
@@ -60,7 +60,7 @@ jobs:
   # 🔹 4. STAGING DEPLOYMENT
   deploy-staging:
     name: Deploy to Staging Environment
-    if: github.ref == 'refs/heads/staging'
+    if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
     needs: build
     runs-on: ubuntu-latest
     # environment: staging
@@ -72,7 +72,7 @@ jobs:
   # 🔹 5. PRODUCTION DEPLOYMENT
   deploy-prod:
     name: Deploy to Production Environment
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     needs: build
     runs-on: ubuntu-latest
     # environment: production   # 👈 enables approval control
