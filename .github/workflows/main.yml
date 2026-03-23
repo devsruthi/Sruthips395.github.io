@@ -34,6 +34,12 @@ jobs:
       - name: Build Application
         run: npm run build
 
+      - name: Set Environment Variables
+        run: |
+          echo "VITE_API_URL=${{ vars.VITE_API_URL }}" >> ${{ github.env }}
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+
   # 🔹 2. DEBUG JOB
   debug:
     name: Debug
