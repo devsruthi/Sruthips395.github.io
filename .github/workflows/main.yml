@@ -40,7 +40,7 @@ jobs:
     if: github.ref == 'refs/heads/develop'
     needs: build
     runs-on: ubuntu-latest
-    environment: development
+    # environment: development
 
     steps:
       - name: Deploy to Dev Server
@@ -52,7 +52,7 @@ jobs:
     if: github.ref == 'refs/heads/staging'
     needs: build
     runs-on: ubuntu-latest
-    environment: staging
+    # environment: staging
 
     steps:
       - name: Deploy to Staging Server
@@ -64,7 +64,7 @@ jobs:
     if: github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
-    environment: production   # 👈 enables approval control
+    # environment: production   # 👈 enables approval control
 
     steps:
       - name: Deploy to Production Server
